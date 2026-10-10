@@ -1,5 +1,5 @@
 [package]
-name = "ore-mint-program"
+name = "blackgold-mint-program"
 description.workspace = true
 version.workspace = true
 edition.workspace = true
@@ -12,7 +12,7 @@ keywords.workspace = true
 
 [lib]
 crate-type = ["cdylib", "lib"]
-name = "ore_mint"
+name = "blackgold_mint"
 
 [features]
 default = []
@@ -23,4 +23,3 @@ solana-program.workspace = true
 solana-security-txt.workspace = true
 spl-token.workspace = true
 steel.workspace = true
-

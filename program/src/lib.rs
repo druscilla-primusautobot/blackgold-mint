@@ -1,10 +1,10 @@
 mod init;
-mod mint_ore;
+mod mint_blackgold;
 
 use init::*;
-use mint_ore::*;
+use mint_blackgold::*;
 
-use ore_mint_api::instruction::*;
+use blackgold_mint_api::instruction::*;
 use solana_security_txt::security_txt;
 use steel::*;
 
@@ -13,11 +13,11 @@ pub fn process_instruction(
     accounts: &[AccountInfo],
     data: &[u8],
 ) -> ProgramResult {
-    let (ix, data) = parse_instruction(&ore_mint_api::ID, program_id, data)?;
+    let (ix, data) = parse_instruction(&blackgold_mint_api::ID, program_id, data)?;
 
     match ix {
-        OreMintInstruction::Init => process_init(accounts, data)?,
-        OreMintInstruction::MintORE => process_mint_ore(accounts, data)?,
+        BlackgoldMintInstruction::Init => process_init(accounts, data)?,
+        BlackgoldMintInstruction::MintBlackgold => process_mint_blackgold(accounts, data)?,
     }
 
     Ok(())
@@ -26,9 +26,9 @@ pub fn process_instruction(
 entrypoint!(process_instruction);
 
 security_txt! {
-    name: "ORE Mint",
-    project_url: "https://ore.supply",
-    contacts: "email:hardhatchad@gmail.com,discord:hardhatchad",
+    name: "BLKG Mint",
+    project_url: "https://blackgold.supply",
+    contacts: "email:druscilla2024@gmail.com",
     policy: "https://github.com/regolith-labs/ore-mint/blob/master/SECURITY.md",
     preferred_languages: "en",
     source_code: "https://github.com/regolith-labs/ore-mint"

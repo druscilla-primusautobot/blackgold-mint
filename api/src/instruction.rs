@@ -2,9 +2,9 @@ use steel::*;
 
 #[repr(u8)]
 #[derive(Clone, Copy, Debug, Eq, PartialEq, TryFromPrimitive)]
-pub enum OreMintInstruction {
+pub enum BlackgoldMintInstruction {
     Init = 0,
-    MintORE = 1,
+    MintBlackgold = 1,
 }
 
 #[repr(C)]
@@ -13,9 +13,10 @@ pub struct Init {}
 
 #[repr(C)]
 #[derive(Clone, Copy, Debug, Pod, Zeroable)]
-pub struct MintORE {
+pub struct MintBlackgold {
+    // No of tokens to mint in this request (max 2 allowed per request as per the architecture)
     pub amount: [u8; 8],
 }
 
-instruction!(OreMintInstruction, Init);
-instruction!(OreMintInstruction, MintORE);
+instruction!(BlackgoldMintInstruction, Init);
+instruction!(BlackgoldMintInstruction, MintBlackgold);

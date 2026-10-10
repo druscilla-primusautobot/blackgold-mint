@@ -2,7 +2,7 @@ use steel::*;
 
 #[derive(Debug, Error, Clone, Copy, PartialEq, Eq, IntoPrimitive)]
 #[repr(u32)]
-pub enum OreMintError {
+pub enum BlackgoldMintError {
     #[error("Max amount exceeded")]
     MaxAmountExceeded = 0,
 
@@ -13,4 +13,4 @@ pub enum OreMintError {
     MintFrequencyExceeded = 2,
 }
 
-error!(OreMintError);
+error!(BlackgoldMintError);
