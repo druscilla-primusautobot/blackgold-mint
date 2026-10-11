@@ -1,4 +1,4 @@
-use blackgold_mint_api::state::Authority;
+use blackgold_mint_api::state::MintAuthority;
 use solana_client::nonblocking::rpc_client::RpcClient;
 use solana_sdk::{
     compute_budget::ComputeBudgetInstruction,
@@ -40,11 +40,11 @@ async fn init(rpc: &RpcClient, payer: &Keypair) -> Result<(), anyhow::Error> {
 }
 
 async fn log_authority(rpc: &RpcClient) -> Result<(), anyhow::Error> {
-    let authority_address = blackgold_mint_api::state::authority_pda().0;
-    let authority = get_authority(&rpc).await?;
+    let mint_authority_address = blackgold_mint_api::state::authority_pda().0;
+    let mint_authority = get_authority(&rpc).await?;
     println!("Authority");
-    println!("  address: {}", authority_address);
-    println!("  last_mint_at: {}", authority.last_mint_at);
+    println!("  address: {}", mint_authority_address);
+    println!("  last_mint_at: {}", mint_authority.last_mint_at);
     Ok(())
 }
 
@@ -59,10 +59,10 @@ async fn log_clock(rpc: &RpcClient) -> Result<(), anyhow::Error> {
     Ok(())
 }
 
-async fn get_authority(rpc: &RpcClient) -> Result<Authority, anyhow::Error> {
+async fn get_authority(rpc: &RpcClient) -> Result<MintAuthority, anyhow::Error> {
     let authority_address = blackgold_mint_api::state::authority_pda().0;
     let account = rpc.get_account(&authority_address).await?;
-    let authority = Authority::try_from_bytes(&account.data)?;
+    let authority = MintAuthority::try_from_bytes(&account.data)?;
     Ok(*authority)
 }
 

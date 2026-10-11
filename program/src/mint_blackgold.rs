@@ -2,8 +2,8 @@ use blackgold_mint_api::prelude::*;
 use spl_token::amount_to_ui_amount;
 use steel::*;
 
-/// Mints ORE to the treasury.
-pub fn process_mint_blackgold(accounts: &[AccountInfo<'_>], data: &[u8]) -> ProgramResult {
+/// Mints Token to the treasury.
+pub fn process_mint_token(accounts: &[AccountInfo<'_>], data: &[u8]) -> ProgramResult {
     // Parse data. (make mint token struct)
     let args = MintToken::try_from_bytes(data)?;
 
@@ -19,8 +19,8 @@ pub fn process_mint_blackgold(accounts: &[AccountInfo<'_>], data: &[u8]) -> Prog
     //* Signer account (treasury)
     signer_info.is_signer()?.has_address(&TREASURY_ADDRESS)?;
 
-    //* Mint Authority
-    let authority = authority_info.as_account_mut::<Authority>(&blackgold_mint_api::ID)?;
+    //* Mint authority
+    let mint_authority = authority_info.as_account_mut::<MintAuthority>(&blackgold_mint_api::ID)?;
 
     //* Mint address
     let mint = mint_info.has_address(&MINT_ADDRESS)?.as_mint()?;
@@ -28,6 +28,7 @@ pub fn process_mint_blackgold(accounts: &[AccountInfo<'_>], data: &[u8]) -> Prog
     //* ATA PDA (destination)
     to_info.as_associated_token_account(&TREASURY_ADDRESS, &MINT_ADDRESS)?;
 
+    //* Token program (spl token program)
     token_program.is_program(&spl_token::ID)?;
 
     //* Amount is in qty
@@ -62,7 +63,7 @@ pub fn process_mint_blackgold(accounts: &[AccountInfo<'_>], data: &[u8]) -> Prog
     }
 
     // Check mint frequency.
-    let slots_since = clock.slot.saturating_sub(authority.last_mint_at);
+    let slots_since = clock.slot.saturating_sub(mint_authority.last_mint_at);
 
     //* Check whether the minimum gap between the last mint time and current request time is OKAY - MIN_SLOTS_BETWEEN_MINT
     if slots_since < MIN_SLOTS_BETWEEN_MINT {
@@ -79,7 +80,7 @@ pub fn process_mint_blackgold(accounts: &[AccountInfo<'_>], data: &[u8]) -> Prog
 
     // Update timestamp.
     //* Update last mint at with current slot
-    authority.last_mint_at = clock.slot;
+    mint_authority.last_mint_at = clock.slot;
 
     // Mint tokens to the treasury.
     mint_to_signed(

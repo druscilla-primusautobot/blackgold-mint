@@ -17,7 +17,7 @@ pub fn process_instruction(
 
     match ix {
         MintInstruction::Init => process_init(accounts, data)?,
-        MintInstruction::MintToken => process_mint_blackgold(accounts, data)?,
+        MintInstruction::MintToken => process_mint_token(accounts, data)?,
     }
 
     Ok(())
