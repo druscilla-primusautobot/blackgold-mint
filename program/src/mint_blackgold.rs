@@ -4,8 +4,9 @@ use steel::*;
 
 /// Mints ORE to the treasury.
 pub fn process_mint_blackgold(accounts: &[AccountInfo<'_>], data: &[u8]) -> ProgramResult {
-    // Parse data.
-    let args = MintBlackgold::try_from_bytes(data)?;
+    // Parse data. (make mint token struct)
+    let args = MintToken::try_from_bytes(data)?;
+
     let amount = u64::from_le_bytes(args.amount);
 
     // Load accounts.
@@ -15,18 +16,21 @@ pub fn process_mint_blackgold(accounts: &[AccountInfo<'_>], data: &[u8]) -> Prog
         return Err(ProgramError::NotEnoughAccountKeys);
     };
 
+    //* Signer account (treasury)
     signer_info.is_signer()?.has_address(&TREASURY_ADDRESS)?;
 
+    //* Mint Authority
     let authority = authority_info.as_account_mut::<Authority>(&blackgold_mint_api::ID)?;
 
+    //* Mint address
     let mint = mint_info.has_address(&MINT_ADDRESS)?.as_mint()?;
 
+    //* ATA PDA (destination)
     to_info.as_associated_token_account(&TREASURY_ADDRESS, &MINT_ADDRESS)?;
 
     token_program.is_program(&spl_token::ID)?;
 
     //* Amount is in qty
-
     // Check max mint amount.
     //* If to be minted amount is greater than MAX LIMIT OF MINT amount throw error
     if amount > MAX_MINT_AMOUNT {
@@ -41,7 +45,7 @@ pub fn process_mint_blackgold(accounts: &[AccountInfo<'_>], data: &[u8]) -> Prog
         ));
     }
 
-    // Check remaining max supply. By checking current MAX SUPPLY
+    // Check remaining max supply. By checking current supply and substracting it with max supply
     let remaining_supply = MAX_SUPPLY.saturating_sub(mint.supply());
 
     //* If to be minted amount is greater than remaining amount throw Error
@@ -84,7 +88,7 @@ pub fn process_mint_blackgold(accounts: &[AccountInfo<'_>], data: &[u8]) -> Prog
         authority_info,
         token_program,
         amount,
-        &[AUTHORITY],
+        &[MINT_AUTHORITY],
     )?;
 
     Ok(())

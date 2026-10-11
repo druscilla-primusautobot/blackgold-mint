@@ -19,9 +19,9 @@ pub const MAX_SUPPLY: u64 = ONE_OUR_TOKEN * 21_000_000;
 /// The seed of the automation account PDA. (Seed of mint authority)
 pub const MINT_AUTHORITY: &[u8] = b"authority";
 
-/// The address of the mint account. (account of token)
+/// The address of the mint account. (Account of token)
 pub const MINT_ADDRESS: Pubkey = pubkey!("BLKGmSnWUj7EYirCirqgnS1Wvi3JwbCbHk2Ws2baLuNt");
 
-/// The treasury address allowed to request a mint.
+/// The treasury address allowed to request a mint. (Account of treasury)
 pub const TREASURY_ADDRESS: Pubkey = pubkey!("52iRWuupHEdGArESEkrbmyD2TV2X6mibvEBTkbXznJ7M");
 // pub const TREASURY_ADDRESS: Pubkey = pubkey!("45db2FSR4mcXdSVVZbKbwojU6uYDpMyhpEi7cC8nHaWG");

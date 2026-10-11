@@ -81,7 +81,7 @@ AccountMeta::new_readonly(system_program::ID, false)
 
 pub fn init(signer: Pubkey) -> Instruction {
     //* Generating mint authority address using mint authority PDA seed and Program ID
-    let mint_authority_address = authority_pda().0;
+    let mint_authority_address = mint_authority_pda().0;
 
     //1 =======
     // signer — Why is signer needed?
@@ -194,7 +194,7 @@ pub fn mint_blackgold(amount: u64) -> Instruction {
         spl_associated_token_account::get_associated_token_address(&signer_address, &MINT_ADDRESS); //* HOW THIS IS CALCULATED? AND WHAT IS THIS?
 
     //* Mint Authority Address -- address of account authoried to mint the token
-    let mint_authority_address = authority_pda().0;
+    let mint_authority_address = mint_authority_pda().0;
 
     //* Instruction of mint
     Instruction {

@@ -16,8 +16,8 @@ pub fn process_instruction(
     let (ix, data) = parse_instruction(&blackgold_mint_api::ID, program_id, data)?;
 
     match ix {
-        BlackgoldMintInstruction::Init => process_init(accounts, data)?,
-        BlackgoldMintInstruction::MintBlackgold => process_mint_blackgold(accounts, data)?,
+        MintInstruction::Init => process_init(accounts, data)?,
+        MintInstruction::MintToken => process_mint_blackgold(accounts, data)?,
     }
 
     Ok(())
