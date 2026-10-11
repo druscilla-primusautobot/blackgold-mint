@@ -50,19 +50,30 @@ pub fn process_init(accounts: &[AccountInfo<'_>], _data: &[u8]) -> ProgramResult
     */
 
     // This function:
-    //
     // creates the PDA
-    //
     // allocates space
-    //
     // assigns your program as owner
-    //
     // initializes the account’s data buffer with zeros
-    //
     // returns control back to your program
 
     // At this point, the PDA exists and is writable.
     // Initialize authority account.
+
+    // create_program_account::<MintAuthority>()
+    //
+    // Provided by Steel (use steel::*).
+    // This helper performs all steps required to create and initialize a PDA:
+    //
+    // 1. Invokes system_program::create_account to allocate the PDA.
+    // 2. Assigns the PDA to this program (blackgold_mint_api::ID).
+    // 3. Allocates enough space for the MintAuthority struct.
+    // 4. Writes the account discriminator (BlackgoldAccount::MintAuthority = 100).
+    // 5. Initializes the account data buffer to zero.
+    // 6. Returns a fully created, writable PDA ready for mutation.
+    //
+    // After this call, authority_info contains a valid MintAuthority account,
+    // and any changes made through as_account_mut() are automatically persisted
+    // when the instruction returns Ok(()).
     create_program_account::<MintAuthority>(
         authority_info,
         system_program,
