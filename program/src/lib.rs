@@ -1,8 +1,8 @@
 mod init;
-mod mint_blackgold;
+mod mint_token;
 
 use init::*;
-use mint_blackgold::*;
+use mint_token::*;
 
 use blackgold_mint_api::instruction::*;
 use solana_security_txt::security_txt;

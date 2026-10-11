@@ -10,7 +10,7 @@ ORE Mint manages the mint authority of the ORE token and secures emissions rules
 
 ## Instructions
 
-- [`MintORE`](program/src/mint_ore.rs) - Mints new ORE tokens to the treasury.
+- [`MintORE`](program/src/mint_token.rs) - Mints new ORE tokens to the treasury.
 
 ## State
 - [`Authority`](api/src/state/authority.rs) - Holds the mint authority.
